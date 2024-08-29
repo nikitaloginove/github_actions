@@ -1,6 +1,9 @@
 # Простой workflow для развёртывания статического содержимого на GitHub Pages
 name: Deploy static content to Pages
 on:
+  pull_request:
+    branches:
+      - main
   # Триггером выступает push в ветку master
   push:
     branches: ['master']
@@ -14,6 +17,12 @@ permissions:
   id-token: write # Разрешаем использовать GITHUB_TOKEN
 
 jobs: # Секция jobs определяет этапы процесса
+    notification:
+      needs: deploy # указывает зависимость от другой задачи с именем deploy 
+        runs-on: ubuntu-latest
+      steps:
+        - name: Send message
+          run: # тут должна быть команда для отправки сообщения 
  
   deploy:  # Создаётся одна задача deploy, имя может быть любым
     runs-on: ubuntu-latest # Определяет, в каком окружении будут запущены все команды этой задачи
